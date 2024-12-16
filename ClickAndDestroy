@@ -23,8 +23,8 @@ public class ClickAndDestroy : MonoBehaviour
     {
 
         
-        if (Input.GetMouseButtonDown(0))
-        {
+       
+        
 
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -35,9 +35,9 @@ public class ClickAndDestroy : MonoBehaviour
                 BoxCollider bc = hit.collider as BoxCollider;
 
 
-                //adds a 1 to the tally and teleports the object out of the play area
+            //adds a 1 to the tally and teleports the object out of the play area
 
-                if (Input.GetMouseButtonDown(0) && bc != null)
+            if (Input.GetMouseButtonDown(0) && hit.collider as BoxCollider)
                 {
 
 
@@ -54,7 +54,7 @@ public class ClickAndDestroy : MonoBehaviour
                     SceneManager.LoadSceneAsync(2);
                 }
 
-            }
+            
 
        }
 
