@@ -1,0 +1,75 @@
+using System.Collections;
+using System.Diagnostics;
+using UnityEngine;
+using TMPro;
+using UnityEditor.Experimental.GraphView;
+using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
+
+public class ClickAndDestroy : MonoBehaviour
+{
+    public TextMeshProUGUI NowCollected;
+    int Collected = 0;
+    int NumberOfItems = 8;
+
+    // Update is called once per frame
+
+  
+
+
+    void Update()
+    {
+
+        
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+
+                BoxCollider bc = hit.collider as BoxCollider;
+
+
+                //adds a 1 to the tally and teleports the object out of the play area
+
+                if (Input.GetMouseButtonDown(0) && bc != null)
+                {
+
+
+                   Collected++;
+                   transform.position = bc.center; 
+
+
+                }
+
+
+                // makes the scene switch
+                if (Collected == NumberOfItems)
+                {
+                    SceneManager.LoadSceneAsync(2);
+                }
+
+            }
+
+       }
+
+       
+        
+    }
+    // for the text mesh pro 
+    private void FixedUpdate()
+    {
+        if (NowCollected != null)
+        {
+            NowCollected.SetText(Collected + " / ", NumberOfItems);
+
+        }
+
+    }
+
+    
+    
+}
