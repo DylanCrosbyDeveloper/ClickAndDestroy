@@ -7,71 +7,135 @@ using TMPro;
 using UnityEditor.Experimental.GraphView;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Diagnostics.Tracing;
+using JetBrains.Annotations;
+using System;
 
-public class ClickAndDestroy : MonoBehaviour
+public class Destroyerscombines : MonoBehaviour
 {
+ 
     public TextMeshProUGUI NowCollected;
     int Collected = 0;
-    int NumberOfItems = 8;
+    int NumberOfItems = 7;
+    [SerializeField] GameObject Arrow;
+    [SerializeField] GameObject Bow;
+    [SerializeField] GameObject Glasses;
+    [SerializeField] GameObject MP3Player;
+    [SerializeField] GameObject Shield;
+    [SerializeField] GameObject Sword;
+    [SerializeField] GameObject Key;
+    [SerializeField] GameObject ArrowFound;
+    
 
     // Update is called once per frame
 
-  
+
 
 
     void Update()
     {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        
-       
-        
+        if (Physics.Raycast(ray, out hit))
+            
+        {
 
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit))
-            {
-
-                BoxCollider bc = hit.collider as BoxCollider;
+            BoxCollider bc = hit.collider as BoxCollider;
 
 
             //adds a 1 to the tally and teleports the object out of the play area
 
+
             if (Input.GetMouseButtonDown(0) && hit.collider as BoxCollider)
+            {
+
+                if (bc.gameObject.tag == "Arrow")
                 {
-
-
-                   Collected++;
-                   transform.position = bc.center; 
-
-
+                    Destroy(Arrow);
+                    Collected++;
+                    UnityEngine.Debug.Log(Collected);
+                    ArrowFound.SetActive(true);
                 }
 
-
-                // makes the scene switch
-                if (Collected == NumberOfItems)
+                if (bc.gameObject.tag == "Bow")
                 {
-                    SceneManager.LoadSceneAsync(2);
+                    Destroy(Bow);
+                    Collected++;
+                    UnityEngine.Debug.Log(Collected);
+                }
+                if (bc.gameObject.tag == "MP3Player")
+                {
+                    Destroy(MP3Player);
+                    Collected++;
+                    UnityEngine.Debug.Log(Collected);
                 }
 
-            
+                if (bc.gameObject.tag == "Shield")
+                {
+                    Destroy(Shield);
+                    Collected++;
+                    UnityEngine.Debug.Log(Collected);
+                }
+                if (bc.gameObject.tag == "Sword")
+                {
+                    Destroy(Sword);
+                    Collected++;
+                    UnityEngine.Debug.Log(Collected);
+                }
+                if (bc.gameObject.tag == "Key")
+                {
+                    Destroy(Key);
+                    Collected++;
+                    UnityEngine.Debug.Log(Collected);
+                }
+                if (bc.gameObject.tag == "Glasses")
+                {
+                    Destroy(Glasses);
+                    Collected++;
+                    UnityEngine.Debug.Log(Collected);
+                }
+                
+                  
+                
 
-       }
+               
 
-       
-        
-    }
-    // for the text mesh pro 
-    private void FixedUpdate()
-    {
-        if (NowCollected != null)
-        {
-            NowCollected.SetText(Collected + " / ", NumberOfItems);
+            }
+
+           
+
+    
+
 
         }
 
+        
     }
 
-    
-    
+    public Timer Timer;
+
+    private void OnDisable()
+    {
+        if (Collected == 7)
+        {
+            EventManager.TimerStop -= EventManagerOnTimerStop;
+        }
+    }
+
+    private void EventManagerOnTimerStop()
+    {
+        throw new NotImplementedException();
+    }
+
+    // for the text mesh pro 
+    private void FixedUpdate()
+        {
+        if (NowCollected != null)
+        {
+            NowCollected.SetText(Collected.ToString());
+
+        }
+    }
 }
